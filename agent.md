@@ -17,3 +17,4 @@ NO agregues features fuera del spec.
 2. Esperar aprobación humana (HITL)
 3. Implementar lo aprobado
 4. Commit semántico (feat/fix/chore)
+5. Siempre hacer un PR en GIT
