@@ -31,8 +31,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var name = document.getElementById('name').value.trim();
     var message = document.getElementById('message').value.trim();
+    var rating = document.querySelector('input[name="rating"]:checked');
 
     if (!name || !message) return;
+    if (!rating) return;
+
+    var ratingVal = rating.value;
 
     submitBtn.disabled = true;
     submitBtn.textContent = 'Enviando...';
@@ -40,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var body = new FormData();
     body.append('name', name);
     body.append('message', message);
+    body.append('rating', ratingVal);
 
     fetch('api/comment.php', {
       method: 'POST',
@@ -49,11 +54,11 @@ document.addEventListener('DOMContentLoaded', function () {
         return res.json();
       })
       .then(function (json) {
-        if (json.success) {
+        if (json.status === 'ok') {
           form.reset();
           loadComments();
         } else {
-          alert(json.error || 'Error al enviar comentario');
+          alert(json.message || 'Error al enviar comentario');
         }
       })
       .catch(function () {
@@ -80,9 +85,15 @@ document.addEventListener('DOMContentLoaded', function () {
             '<span class="comment-date">' + formatDate(c.created_at) + '</span>' +
           '</div>' +
           '<p class="comment-message">' + escapeHtml(c.message) + '</p>' +
+          '<div class="comment-rating">' + renderStars(c.rating) + '</div>' +
         '</article>';
     });
     feed.innerHTML = html;
+  }
+
+  function renderStars(rating) {
+    var r = parseInt(rating, 10) || 1;
+    return '\u2605'.repeat(r) + '\u2606'.repeat(5 - r) + ' (' + r + '/5)';
   }
 
   function escapeHtml(str) {
