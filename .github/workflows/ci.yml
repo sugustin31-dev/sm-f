@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  php:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: workshop_comments
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+        ports:
+          - 3306:3306
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Check PHP syntax
+        run: |
+          php -l api/config.php
+          php -l api/comment.php
+          php -l api/comments.php
+
+      - name: Run database schema
+        run: |
+          mysql -h 127.0.0.1 -u root -proot workshop_comments < db/schema.sql
+        shell: bash
+
+      - name: Verify table exists
+        run: |
+          mysql -h 127.0.0.1 -u root -proot workshop_comments -e "DESCRIBE comments;"
+        shell: bash
