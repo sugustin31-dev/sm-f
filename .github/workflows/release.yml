@@ -1,0 +1,25 @@
+# .github/workflows/release.yml
+name: Release Please
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v4
+        with:
+          release-type: simple
+          package-name: workshop-comments
+
+# Commits semánticos → changelog automático:
+# feat: nueva funcionalidad  → versión MINOR
+# fix:  corrección de bug    → versión PATCH
+# feat!: breaking change     → versión MAJOR
+#
+# Resultado: PR automático con:
+#   - CHANGELOG.md actualizado
+#   - Tag de versión (v1.2.0)
+#   - Release notes generadas por IA
