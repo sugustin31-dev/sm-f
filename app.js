@@ -2,13 +2,9 @@ document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('comment-form');
   const feed = document.getElementById('comments-feed');
   const submitBtn = document.getElementById('submit-btn');
-  const themeToggle = document.getElementById('theme-toggle');
-
-  initTheme();
   loadComments();
 
   form.addEventListener('submit', addComment);
-  themeToggle.addEventListener('click', toggleTheme);
 
   function loadComments() {
     feed.innerHTML = '<p class="loading">Cargando comentarios...</p>';
@@ -102,27 +98,4 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  function initTheme() {
-    var saved = localStorage.getItem('theme');
-    if (saved === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      themeToggle.textContent = '☀️';
-    } else {
-      document.documentElement.removeAttribute('data-theme');
-      themeToggle.textContent = '🌙';
-    }
-  }
-
-  function toggleTheme() {
-    var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    if (isDark) {
-      document.documentElement.removeAttribute('data-theme');
-      localStorage.setItem('theme', 'light');
-      themeToggle.textContent = '🌙';
-    } else {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
-      themeToggle.textContent = '☀️';
-    }
-  }
 });

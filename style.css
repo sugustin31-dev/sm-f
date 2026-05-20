@@ -1,29 +1,33 @@
-:root {
-  --color-bg: #f5f5f5;
-  --color-surface: #ffffff;
-  --color-primary: #2563eb;
-  --color-primary-hover: #1d4ed8;
-  --color-text: #1f2937;
-  --color-text-muted: #6b7280;
-  --color-border: #e5e7eb;
-  --color-error: #dc2626;
-  --color-toggle: #1f2937;
-  --color-toggle-bg: #e5e7eb;
-  --radius: 8px;
-  --max-width: 640px;
+:root[data-theme="light"] {
+  --bg-primary:    #ffffff;
+  --bg-secondary:  #f5f5f5;
+  --text-primary:  #1a1a1a;
+  --text-secondary:#555555;
+  --accent:        #4f46e5;
+  --border:        #e0e0e0;
+  --card-bg:       #ffffff;
+  --input-bg:      #ffffff;
+  --color-error:   #dc2626;
+  --color-toggle:  #1a1a1a;
+  --color-toggle-bg: #e0e0e0;
+  --radius:        8px;
+  --max-width:     640px;
 }
 
-[data-theme="dark"] {
-  --color-bg: #111827;
-  --color-surface: #1f2937;
-  --color-primary: #60a5fa;
-  --color-primary-hover: #93bbfc;
-  --color-text: #f9fafb;
-  --color-text-muted: #9ca3af;
-  --color-border: #374151;
-  --color-error: #f87171;
-  --color-toggle: #f9fafb;
-  --color-toggle-bg: #374151;
+:root[data-theme="dark"] {
+  --bg-primary:    #0f0f0f;
+  --bg-secondary:  #1a1a1a;
+  --text-primary:  #f0f0f0;
+  --text-secondary:#a0a0a0;
+  --accent:        #818cf8;
+  --border:        #2a2a2a;
+  --card-bg:       #1e1e1e;
+  --input-bg:      #252525;
+  --color-error:   #f87171;
+  --color-toggle:  #f0f0f0;
+  --color-toggle-bg: #2a2a2a;
+  --radius:        8px;
+  --max-width:     640px;
 }
 
 *,
@@ -36,13 +40,14 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: var(--color-bg);
-  color: var(--color-text);
+  background: var(--bg-primary);
+  color: var(--text-primary);
   line-height: 1.6;
   padding: 1rem;
 }
 
 header {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -56,6 +61,9 @@ header {
 }
 
 #theme-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
   background: var(--color-toggle-bg);
   color: var(--color-toggle);
   border: none;
@@ -73,11 +81,11 @@ header {
 
 header h1 {
   font-size: 1.75rem;
-  color: var(--color-primary);
+  color: var(--accent);
 }
 
 header p {
-  color: var(--color-text-muted);
+  color: var(--text-secondary);
   margin-top: 0.25rem;
 }
 
@@ -87,7 +95,7 @@ main {
 }
 
 #comment-form {
-  background: var(--color-surface);
+  background: var(--card-bg);
   padding: 1.5rem;
   border-radius: var(--radius);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -104,11 +112,13 @@ main {
 #comment-form textarea {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   font-size: 1rem;
   font-family: inherit;
   margin-bottom: 1rem;
+  background: var(--input-bg);
+  color: var(--text-primary);
 }
 
 #comment-form textarea {
@@ -119,18 +129,18 @@ main {
 #comment-form button {
   width: 100%;
   padding: 0.75rem;
-  background: var(--color-primary);
+  background: var(--accent);
   color: #fff;
   border: none;
   border-radius: var(--radius);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: opacity 0.2s;
 }
 
 #comment-form button:hover {
-  background: var(--color-primary-hover);
+  opacity: 0.9;
 }
 
 #comment-form button:disabled {
@@ -143,7 +153,7 @@ main {
 }
 
 .comment-card {
-  background: var(--color-surface);
+  background: var(--card-bg);
   padding: 1rem 1.25rem;
   border-radius: var(--radius);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -163,12 +173,12 @@ main {
 
 .comment-card .comment-name {
   font-weight: 600;
-  color: var(--color-primary);
+  color: var(--accent);
 }
 
 .comment-card .comment-date {
   font-size: 0.8rem;
-  color: var(--color-text-muted);
+  color: var(--text-secondary);
 }
 
 .comment-card .comment-message {
@@ -179,7 +189,7 @@ main {
 .empty,
 .error {
   text-align: center;
-  color: var(--color-text-muted);
+  color: var(--text-secondary);
   padding: 2rem 0;
 }
 
