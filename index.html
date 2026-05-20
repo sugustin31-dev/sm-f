@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workshop Comments</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Workshop Comments</h1>
+    <p>Deja tu comentario para el curso</p>
+  </header>
+
+  <main>
+    <section id="form-section">
+      <form id="comment-form">
+        <label for="name">Nombre</label>
+        <input type="text" id="name" name="name" maxlength="60" required placeholder="Tu nombre">
+
+        <label for="message">Mensaje</label>
+        <textarea id="message" name="message" maxlength="500" required placeholder="Escribe tu mensaje..."></textarea>
+
+        <button type="submit" id="submit-btn">Enviar</button>
+      </form>
+    </section>
+
+    <section id="feed-section">
+      <h2>Comentarios</h2>
+      <div id="comments-feed">
+        <p class="loading">Cargando comentarios...</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

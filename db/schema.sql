@@ -1,0 +1,9 @@
+CREATE DATABASE IF NOT EXISTS workshop_comments;
+USE workshop_comments;
+
+CREATE TABLE IF NOT EXISTS comments (
+  id         INT AUTO_INCREMENT PRIMARY KEY,
+  name       VARCHAR(60)  NOT NULL,
+  message    VARCHAR(500) NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
