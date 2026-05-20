@@ -1,49 +1,32 @@
-name: CI
+# .github/workflows/ci.yml
+name: CI — Workshop Comments
 
 on:
   push:
-    branches: [main]
+    branches-ignore: [main]
   pull_request:
     branches: [main]
 
 jobs:
-  php:
+  validate:
     runs-on: ubuntu-latest
-
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: workshop_comments
-        options: >-
-          --health-cmd="mysqladmin ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-        ports:
-          - 3306:3306
-
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - name: Lint PHP
+        run: |
+          find api/ -name "*.php" \
+            -exec php -l {} \;
+
+      - name: Security scan
+        run: |
+          composer require --dev \
+            phpstan/phpstan
+          vendor/bin/phpstan analyse \
+            api/ --level=5
+
+      - name: Check for secrets
+        uses: trufflesecurity/trufflehog@main
         with:
-          php-version: '8.2'
-
-      - name: Check PHP syntax
-        run: |
-          php -l api/config.php
-          php -l api/comment.php
-          php -l api/comments.php
-
-      - name: Run database schema
-        run: |
-          mysql -h 127.0.0.1 -u root -proot workshop_comments < db/schema.sql
-        shell: bash
-
-      - name: Verify table exists
-        run: |
-          mysql -h 127.0.0.1 -u root -proot workshop_comments -e "DESCRIBE comments;"
-        shell: bash
+          path: ./
+          base: main
