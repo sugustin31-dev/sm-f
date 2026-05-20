@@ -31,17 +31,25 @@ if (mb_strlen($message) > 500) {
 
 if ($name === '' || $message === '') {
     http_response_code(400);
-    echo json_encode(['success' => false, 'error' => 'Name and message cannot be empty after sanitization']);
+    echo json_encode(['status' => 'error', 'message' => 'Name and message cannot be empty after sanitization']);
+    exit;
+}
+
+$rating = filter_input(INPUT_POST, 'rating', FILTER_VALIDATE_INT,
+    ['options' => ['min_range' => 1, 'max_range' => 5]]);
+if ($rating === false || $rating === null) {
+    http_response_code(422);
+    echo json_encode(['status' => 'error', 'message' => 'Rating inválido']);
     exit;
 }
 
 try {
     $pdo  = getPDO();
-    $stmt = $pdo->prepare('INSERT INTO comments (name, message) VALUES (:name, :message)');
-    $stmt->execute([':name' => $name, ':message' => $message]);
+    $stmt = $pdo->prepare('INSERT INTO comments (name, message, rating) VALUES (:name, :message, :rating)');
+    $stmt->execute([':name' => $name, ':message' => $message, ':rating' => $rating]);
 
-    echo json_encode(['success' => true, 'id' => (int) $pdo->lastInsertId()]);
+    echo json_encode(['status' => 'ok', 'id' => (int) $pdo->lastInsertId()]);
 } catch (PDOException $e) {
     http_response_code(500);
-    echo json_encode(['success' => false, 'error' => 'Database error']);
+    echo json_encode(['status' => 'error', 'message' => 'Database error']);
 }

@@ -126,6 +126,47 @@ main {
   min-height: 100px;
 }
 
+.rating-group {
+  margin-bottom: 1rem;
+}
+
+.rating-group > label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.star-rating {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 0.15rem;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  font-size: 1.75rem;
+  color: #d1d5db;
+  cursor: pointer;
+  transition: color 0.15s;
+  user-select: none;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: #f59e0b;
+}
+
+.comment-rating {
+  margin-top: 0.4rem;
+  font-size: 1.1rem;
+  color: #f59e0b;
+}
+
 #comment-form button {
   width: 100%;
   padding: 0.75rem;
